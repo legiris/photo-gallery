@@ -1,0 +1,95 @@
+{* Latte template *}
+
+{block content}
+
+<div class="sign-in">
+  <div class="container">
+    <div class="row visible-lg visible-md">
+      <div class="col-xs-10 col-xs-offset-1 quote">
+        {$homepage_title|noescape}
+      </div>
+    </div>
+
+    <div class="row block">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-5 col-md-offset-1 block_login">
+          {snippet loginform}
+          {if $loginform=="signin"}
+            <div class="title"><img src="{$basePath}/images/icon-lock.png" alt="" height="32" width="26" />Member login</div>
+              <form n:name="userSignInForm">
+                  <label class="input_name">Username</label>
+                  <input n:name="username">
+
+                  <label class="input_name">Password</label>
+                  <input n:name="password">
+
+                  <br>
+                  <div class="check fleft">
+                      <input n:name="remember" id="chk_keep"><label for="chk_keep">Keep me signed in</label>
+                  </div>
+
+                  <a n:href="formPasswordReset!" class="ajax fright">Forgot password?</a>
+                  
+                  <input n:name="send" value="login">
+              </form>
+              {/if}
+
+              {if $loginform=="passwordreset"}
+              <div class="title">Password reset</div>
+              <form n:name="userPasswordResetForm">
+                  <label class="input_name">E-mail</label>
+                  <input n:name="email">
+
+                  <input n:name="send" value="submit">
+              </form>
+              {/if}
+
+              {if $loginform=="passwordnew"}
+              <div class="title">Password new</div>
+              <form n:name="userPasswordNewForm" class="ajax">
+                  <input n:name="v" value="{ifset $form_code}{$form_code}{/ifset}">
+
+                  <label class="input_name">New password</label>
+                  <input n:name="password_new">
+
+                  <label class="input_name">Repeat password</label>
+                  <input n:name="password_new2">
+
+                  <input n:name="send" value="Save changes">
+              </form>
+              {/if}
+          {/snippet}
+          </div>
+
+          <div class="col-md-5 block_signup use_list">
+            <div class="title">Not a member?</div>
+            <hr>  
+            <div class="join">join now to get:</div>
+            <hr>
+            <br>
+            {$text_content|noescape}        
+            <a n:href="Sign:up" class="button">Become a&nbsp;member</a>
+          </div>
+        </div>
+      </div>
+    </div> {* END LOGIN *}
+  </div>
+</div>
+
+<div class="page-bg">
+  <div>{$text_content2|noescape}<br></div>
+
+  <div class="container">
+    <div class="row video_block">
+      <div class="col-md-12">
+        <div class="video_centered">
+        <a n:href="Homepage:">
+          <img src="{$basePath}/videos/video{$video_trailer["id"]}/poster.jpg" class="img-responsive">
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {include '../common/footer_without_nav.latte'}
+</div>

@@ -1,0 +1,90 @@
+{* Latte template *}
+
+{block content}
+
+<div class="heading">
+    <span class="page">
+        {if $photogallery_creating}Přidání nové fotogalerie{/if}
+        {if $photogallery_editing}Editace fotogalerie{/if}
+    </span>
+</div>
+
+<div class="page">
+    <form n:name="adminPhotogalleryForm" id="form_adminPhotogallery">
+        <input n:name="photogallery_id">
+        <div class="heading3">Obecné</div>
+        <div class="form_row">
+            <label>Název</label>
+            <input n:name="name" class="value">        
+        </div>
+        <div class="form_row">
+          <label>Vybrat video</label>
+          <span class="value">
+            <select n:name="video_id" class="value"></select>
+          </span>
+        </div>
+        <br class="cl">
+        <div class="heading3">SEO</div>
+        <div class="form_row">
+            <label>Titulek</label>
+            <input n:name="seo_title" class="value">
+        </div>
+        <div class="form_row">
+            <label>Popis</label>
+            <textarea n:name="seo_description" class="value"></textarea>
+        </div>
+        <div class="form_row">
+            <label>Klíčová slova</label>
+            <input n:name="seo_keywords" class="value">
+            <span class="hint">Jednotlivá klíčová slova oddělujte čárkou</span>
+        </div>
+        <br class="cl">
+        
+        <div class="heading3">Fotogalerie</div>
+        <div class="form_row">
+          <label>Nahrát fotografie</label>
+          <span class="file_photo_input">
+            <span class="browse">procházet...</span>
+            <input n:name="photos_filepath" class="value file_photo_input" >
+          </span>
+        </div>
+          {*
+          <div class="form_row">
+            <label>Nahrát fotografie</label>
+            <input n:name="photos" class="value file_input" accept="image/*">
+          </div>
+          <br class="cl">
+          *}
+        <br class="cl">
+        
+        {if $photogallery_editing}
+          <div class="form_row">
+            <label>Aktivní</label>
+            <span class="value">
+              <input n:name="is_active"><label n:name="is_active">Ano</label>
+            </span>
+          </div>
+          {if $video}
+          <div class="form_row">
+            <label>Video</label>
+            <span class="value">{$video->name}</span>
+          </div>
+          {/if}
+          <br class="cl">
+        {/if}
+    </form>
+</div>
+
+<div class="bottom">
+    <span class="page">
+        <div class="form_buttons">
+            <a href="#" class="form_submit form_stay" data-form-id="form_adminPhotogallery">Uložit a zůstat</a>
+            <a href="#" class="form_submit button save" data-form-id="form_adminPhotogallery">Uložit a odejít do přehledu</a>
+            <a n:href="Admin:photosgallery" class="form_exit">Odejít bez uložení</a>      
+        </div>        
+    </span>
+</div>
+        
+<script>
+
+</script>

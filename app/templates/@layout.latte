@@ -1,0 +1,123 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+
+{default $content_page_admin = FALSE}
+ 
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>{ifset $seo_title}{$seo_title} - {/ifset}Project</title>
+
+  <link href='https://fonts.googleapis.com/css?family=Raleway:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="{$basePath}/css/style.css">
+	<link rel="shortcut icon" href="{$basePath}/favicon.png?t=3">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+	{block head}{/block}
+        
+        {ifset $seo_keywords}<meta name="keywords" content="{$seo_keywords}">{/ifset}
+        {ifset $seo_description}<meta name="description" content="{$seo_description}">{/ifset}
+               
+        {if $content_page_admin}
+        <link rel="stylesheet" href="{$basePath}/css/main.css">
+        {else}
+        <link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{$basePath}/css/project.css">
+        {/if}
+        
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+          <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+          <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+        
+        {* FONT-AWESOME *}
+        <link rel="stylesheet" href="{$basePath}/plugins/font-awesome-4.4.0/css/font-awesome.min.css">
+        {* JQUERY-UI *}
+        <link rel="stylesheet" href="{$basePath}/plugins/jquery-ui/jquery-ui.min.css">
+        {* JQUERY-SELECTBOX *}
+        {*<link rel="stylesheet" href="{$basePath}/plugins/selectbox/css/jquery.selectbox.css">*}
+        {* VIDEO-JS *}
+        <link href="{$basePath}/plugins/video-js/video-js.css" rel="stylesheet">
+        {* VIDEO-JS-RESOLUTION *}
+        <link href="{$basePath}/plugins/video-js-resolutions/video-js-resolutions.css" rel="stylesheet">
+        {* FILE-TREE *}
+        <link href="{$basePath}/plugins/file-tree/jqueryFileTree.css" rel="stylesheet">
+        {* PHOTOGALLERY LIGHTBOX *}
+        <link rel="stylesheet" href="{$basePath}/plugins/lightGallery-master/dist/css/lightgallery.min.css" />
+
+</head>
+<body>
+  {block scripts}
+    {* NETTE-FORMS *}
+    <script src="{$basePath}/plugins/nette-forms/netteForms.min.js"></script>
+    {* JQUERY *}
+    {if $content_page_admin}
+    <script src="{$basePath}/plugins/jquery/jquery-1.7.2.min.js"></script>
+    {else}
+    <script src="{$basePath}/plugins/jquery/jquery-1.12.4.min.js"></script> {* required for Bootstrap *}
+    {/if}
+    {* JQUERY-UI *}
+    <script src="{$basePath}/plugins/jquery-ui/jquery-ui.min.js"></script>
+    {* CKEDITOR *}
+    <script src="{$basePath}/plugins/ckeditor/ckeditor.js"></script>
+    <script src="{$basePath}/plugins/ckeditor/adapters/jquery.js"></script>
+    {* NETTE-AJAX *}
+    <script src="{$basePath}/plugins/nette-ajax/nette.ajax.js"></script>
+    {* FILE-TREE *}
+    <script src="{$basePath}/plugins/file-tree/jqueryFileTree.js"></script>
+
+    {if !$content_page_admin}
+    <script src="{$basePath}/js/bootstrap.min.js"></script>
+    {/if}
+    
+    {* LIGHTGALLERY *}
+    {* A jQuery plugin that adds cross-browser mouse wheel support. *}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js"></script>
+    
+    <script src="{$basePath}/plugins/lightGallery-master/dist/js/lightgallery.min.js"></script>
+    <script src="{$basePath}/plugins/lightGallery-master/dist/js/lg-thumbnail.min.js"></script>
+    <script src="{$basePath}/plugins/lightGallery-master/dist/js/lg-fullscreen.min.js"></script>
+    
+    <script src="{$basePath}/js/main.js"></script>
+  {/block}
+    
+  <div class="loading_page"></div>
+        
+  <div class="content_with_footer{if $content_page_admin} admin{/if}">
+    {if $content_page_admin}{include "common/admin_header.latte", header_logo_only=>$header_logo_only}
+    {else}{include "common/header.latte", header_logo_only=>$header_logo_only}{/if}
+
+    {snippet flashMessages}
+    <div class="flashes_container">
+        <div class="flashes">
+            <div n:foreach="$flashes as $flash" n:class="flash, $flash->type">
+                {$flash->message}
+                <i class="fa fa-times close"></i>
+            </div>
+        </div>
+    </div>
+    <script>initFlashes()</script>
+    {/snippet}
+
+    {var $cont_style = ""}
+    {ifset $content_page_join}{var $cont_style="opt2"}{/ifset}
+    {ifset $content_page_signup}{var $cont_style="opt3"}{/ifset}
+    {ifset $content_page_order}{var $cont_style="opt4"}{/ifset}
+    {if $content_page_admin}{var $cont_style="opt5"}{/if}
+
+    <div class="content{if $cont_style} {$cont_style}{/if}">
+      <div class="page{if $content_page_admin} admin{/if}">
+        {include content}
+      </div>
+      {if $content_page_admin}{include "common/admin_footer.latte"}{/if}
+    </div>
+  </div>
+</body>
+</html>

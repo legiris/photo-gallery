@@ -1,0 +1,12 @@
+parameters:
+
+
+database:
+	dsn: 'mysql:host=127.0.0.1;dbname=project_com'
+	user: 'root'
+	password: ''
+	options:
+		lazy: yes
+
+services:
+	database: @Nette\Database\Context

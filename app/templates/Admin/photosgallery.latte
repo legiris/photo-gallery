@@ -1,0 +1,66 @@
+{* Latte template *}
+
+{block content}
+
+<div class="heading">
+  <span class="page">Přehled fotogalerií</span>
+</div>
+
+<div class="page">
+
+  {snippet photosgallery}
+    <div class="tabs">
+      <a n:href="Admin:photosgallery all" class="tab ajax{if $tab=="all"} active{/if}">Všechny fotogalerie</a>
+      <a n:href="Admin:photosgallery with-video" class="tab ajax{if $tab=="with-video"} active{/if}">Video</a>
+      <a n:href="Admin:photosgallery without-video" class="tab ajax{if $tab=="without-video"} active{/if}">Bez videa</a>
+    </div>    
+
+    <div class="table videos_all">
+      <div class="row head">
+        <span>Název</span>
+        <span>Fotografie</span>
+        <span>Video</span>
+        <span></span>
+        <span></span>
+      </div>
+
+      {foreach $photosgallery as $photogallery}
+        <div class="row">
+          <span class="title">{$photogallery->name}</span>
+          <span><a n:href="Admin:photos $photogallery->id">Zobrazit ({$photogallery->count})</a></span>
+          <span>{if $photogallery->video}<span class="icon check"></span>{/if}</span>
+          <span>
+            <a n:href="Admin:photogallery $photogallery->id" class="button edit">editovat</a>                
+          </span>
+          <span>
+            <a n:href="photogalleryDelete! $photogallery->id" class="icon delete ajax useDialogConfirm" data-dialog="dialog_photogalleryDelete"></a>
+          </span>
+        </div>
+      {/foreach}
+    </div>
+
+    {var $countPages = ceil($countItems / $countItemsPerPage)}
+    {if $countPages > 1}
+    <div class="pages">
+      {var $from = $selectedPage - 3} {* offset *}
+      {var $to = $selectedPage + 3}
+
+      {if $from < 1} {var $from = 1} {/if} {* min, max page *}
+      {if $to > $countPages} {var $to = $countPages} {/if}
+
+      <a n:href="Admin:photosgallery $tab,1" {if $from == $selectedPage} class="active" {else} class="first" {/if}>1</a> {* always first page *}
+      {for $from; $from <= $to; $from++}
+        {continueIf $from == $countPages || $from == 1}
+        <a n:href="Admin:photosgallery $tab,$from" {if $from == $selectedPage} class="active" {/if}>{$from}</a>
+      {/for}
+      <a n:href="Admin:photosgallery $tab,$countPages" {if $countPages == $selectedPage} class="active" {else} class="last" {/if}>{$countPages}</a> {* always last page *}
+    </div>
+    {/if}
+  {/snippet}
+</div>
+
+<div class="bottom">
+    <span class="page"></span>
+</div>
+
+{include "../dialogs/dialogPhotogalleryDelete.latte"}

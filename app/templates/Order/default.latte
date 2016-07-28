@@ -1,0 +1,54 @@
+{* Latte template *}
+
+{block content}
+<div class="contact">
+  <div class="container">
+    <div class="row visible-lg visible-md">
+      <div class="col-xs-10 col-xs-offset-1 quote">
+        {$homepage_title|noescape}
+      </div>
+    </div>
+    <div class="row block">
+      <div class="col-md-8 col-md-offset-2 content">
+        <div class="heading">You are ordering tariff</div>
+        <hr>
+        
+        <div class="order">
+          <form method="post" action="https://secure.zombaio.com/?{$zombaio_site_id}.{$tariff_default["zombaio_pricing_id"]}.ZOM" data-base-url="https://secure.zombaio.com/?{$zombaio_site_id}">
+            <input type="hidden" name="Username" value="{$default_username}">
+            <input type="hidden" name="Password" value="{$default_password}">
+            <input type="hidden" name="Email" value="{$default_email}">
+
+            <div class="form-group">
+              <div class="half">
+                <select class="zombaio_pricing form-control">
+                  {foreach $tariffs as $tariff}
+                    <option 
+                      value="{$tariff["price"]/100}"
+                      data-pricing-id="{$tariff["zombaio_pricing_id"]}"
+                      {if $tariff_default["tariff_id"] == $tariff["tariff_id"]}selected{/if}>
+                      {$tariff["name_with_price"]}
+                     </option>
+                  {/foreach}
+                </select>
+              </div>
+            </div>
+              
+            <input type="hidden" name="site" value="http://project.com">
+
+            <div class="text_small white">{$text_content|noescape}</div>
+            <div class="text_small gray">{$text_content2|noescape}</div>
+            <div class="acenter">
+              <input type="submit" value="Proceed to the payment gateway" class="submit">
+            </div>
+            <div class="text_small gray">{$text_content3|noescape}</div>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-bg">
+{include '../common/footer.latte'}
+</div>

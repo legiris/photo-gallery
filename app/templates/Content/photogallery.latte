@@ -1,0 +1,32 @@
+{* Latte template *}
+
+{block content}
+
+<div class="photogallery">
+  <div class="container wrapper">
+    <div class="row title">
+      <div class="col-md-12">
+        <h2>
+          <a href="#" onclick="history.go(-1); return false;"><img src="{$basePath}/images/icon-back.png" alt="back" /></a>
+          {$photogallery->name} <span class="small">({$photogallery->count}&nbsp;photos)</span>
+        </h2>
+        {if $photogallery->video_id}
+          <a n:href="Content:video $photogallery->video_id" class="watch_button">
+            <span>Watch Video</span>
+          </a>
+        {/if}
+      </div>
+    </div>
+
+    <div class="row" id="lightgallery">
+      {foreach $photos as $photo}
+        <a href="{$basePath}{$photo->full_url}" class="col-md-4 col-xs-12 thumb">
+          <img src="{$basePath}{$photo->preview_url}" alt="" class="img-responsive" />
+        </a>
+      {/foreach} 
+    </div>
+    {include '../common/pagination.latte'}
+    
+  </div>
+    {include '../common/footer.latte'}
+</div>

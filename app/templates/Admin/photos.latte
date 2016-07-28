@@ -1,0 +1,58 @@
+{* Latte template *}
+
+{block content}
+
+<div class="heading">
+  <span class="page">Fotografie <a href="#" class="button-heading back" onclick="history.go(-1); return false;">Zpět</a></span>
+</div>
+
+<div class="page">
+  {snippet photos}
+    <div class="photos">
+      
+    {var $countPhotos = count($photos)}
+      
+    {foreach $photos as $photo}
+      <div class="img">
+        <img src="{$basePath}{$photo->preview_filepath}" />
+        
+        <div class="text">
+          {if $countPhotos > 1}
+          <a n:href="photoDelete! $photo->id" class="icon delete ajax useDialogConfirm" data-dialog="dialog_photoDelete"></a>
+          {/if}
+          
+          {if $photo->top == 0}
+          <a n:href="photoTop! $photo->id" class="icon setup ajax useDialogConfirm" data-dialog="dialog_photoTop"></a>  
+          {/if}
+          
+        </div>
+      </div>
+    {/foreach}
+    </div>
+    
+    {var $countPages = ceil($countItems / $countItemsPerPage)}
+    {if $countPages > 1}
+    <div class="pages">
+      {var $from = $selectedPage - 3} {* offset *}
+      {var $to = $selectedPage + 3}
+
+      {if $from < 1} {var $from = 1} {/if} {* min, max page *}
+      {if $to > $countPages} {var $to = $countPages} {/if}
+
+      <a n:href="Admin:photos $photogalleryId, 1" {if $from == $selectedPage} class="active" {else} class="first" {/if}>1</a> {* always first page *}
+      {for $from; $from <= $to; $from++}
+        {continueIf $from == $countPages || $from == 1}
+        <a n:href="Admin:photos $photogalleryId, $from" {if $from == $selectedPage} class="active" {/if}>{$from}</a>
+      {/for}
+      <a n:href="Admin:photos $photogalleryId, $countPages" {if $countPages == $selectedPage} class="active" {else} class="last" {/if}>{$countPages}</a> {* always last page *}
+    </div>
+    {/if}
+  {/snippet}
+</div>
+
+<div class="bottom">
+    <span class="page"></span>
+</div>
+
+{include "../dialogs/dialogPhotoDelete.latte"}
+{include "../dialogs/dialogPhotoTop.latte"}

@@ -1,0 +1,29 @@
+{* Latte template *}
+
+{if $page_count > 1}
+  {var $from = $page_current - $page_offset}
+  {var $to = $page_current + $page_offset}
+
+  {if $from <= 1} {var $from = 2} {/if}
+  {if $to >= $page_count} {var $to = $page_count - 1 } {/if}
+
+  <div class="vid_pages">
+    {if $page_current != 1}
+    <a n:href="Content:$request $param, $page_current - 1" class="nav">Previous</a>
+    {/if}
+
+    <a n:href="Content:$request $param, 1" {if 1 == $page_current}class="active"{/if}>1</a> 
+    {if $page_current > 2 + $page_offset} ... {/if}
+
+    {for ; $from <= $to; $from++}
+        <a n:href="Content:$request $param, $from" {if $from == $page_current}class="active"{/if}>{$from}</a>
+    {/for}
+
+    {if $page_current < $page_count - $page_offset - 1} ... {/if}
+    <a n:href="Content:$request $param, $page_count" {if $from == $page_current}class="active"{/if}>{$page_count}</a>
+
+    {if $page_current != $page_count}
+    <a n:href="Content:$request $param, $page_current + 1" class="nav">Next</a>
+    {/if}
+  </div>
+{/if}

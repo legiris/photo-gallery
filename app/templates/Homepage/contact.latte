@@ -1,0 +1,24 @@
+{* Latte template *}
+
+{block content}
+
+<div class="contact">
+  <div class="container">
+    <div class="row visible-lg visible-md">
+      <div class="col-xs-10 col-xs-offset-1 quote">
+        {$homepage_title|noescape}
+      </div>
+    </div>
+    <div class="row block">
+      <div class="col-md-8 col-md-offset-2 content">
+        <div class="heading">Contact</div>
+        <div class="use_list">
+          {$text_content|noescape}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page-bg">
+{include '../common/footer.latte'}
+</div>

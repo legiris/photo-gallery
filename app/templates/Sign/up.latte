@@ -1,0 +1,110 @@
+{* Latte template *}
+
+{block content}
+
+
+<div class="sign-up">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-10 col-md-offset-1 create-account">
+        <p class="quote">Create your account below</p>
+      </div>
+    </div>
+
+    <div class="row block">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-5 col-md-offset-1 block_signup_form">
+            <form n:name="userSignUpForm" id="form_userSignUp">
+              <input n:name="package">
+
+              <label class="input_name">Username</label>
+              <input n:name="username">
+
+              <label class="input_name">Password</label>
+              <input n:name="password">
+
+              <label class="input_name">E-mail</label>
+              <input n:name="email">
+
+              <p>Now... Choose your membership below</p>
+            </form>
+          </div>
+
+          <div class="col-md-5 block_signup_list use_list">
+            {$text_content|noescape}        
+          </div>
+        </div>
+      </div>
+    </div> {* END LOGIN *}
+  </div>
+</div>
+
+<div class="page-bg packages-content">
+  <div class="packages">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-12 choose-membership">
+          <p class="quote">Choose your membership</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="package_wrapper">
+            <div class="col-md-4 package_container">
+                <div class="package green form_submit" data-form-id="form_userSignUp">
+                    {var $tariff=$tariffs["green"]}
+                    <div class="title">{$tariff["name"]}</div>
+                    <div class="price">${$tariff["price"]|money}</div>
+                    <div class="period">({$tariff["period"]|days})</div>
+                    <div class="note">Billed in one payment of ${$tariff["price"]|money}</div>
+
+                    <div class="signup">Sign up!</div>
+                </div>
+            </div>
+
+            <div class="col-md-4 package_container">
+                <div class="package red form_submit" data-form-id="form_userSignUp">
+                    <div class="best">
+                        Best <i class="fa fa-star"></i> deal
+                    </div>
+                    {var $tariff=$tariffs["red"]}
+                    <div class="title">{$tariff["name"]}</div>
+                    <div class="price">${$tariff["price"]|money}</div>
+                    <div class="period">({$tariff["period"]|days})</div>
+                    <div class="note">Billed in one payment of ${$tariff["price"]|money}</div>
+
+                    <div class="signup">Sign up!</div>        
+                </div>
+            </div>
+
+            <div class="col-md-4 package_container" data-form-id="form_userSignUp">
+                <div class="package blue form_submit" data-form-id="form_userSignUp">
+                    {var $tariff=$tariffs["blue"]}
+                    <div class="title">{$tariff["name"]}</div>
+                    <div class="price">${$tariff["price"]|money}</div>
+                    <div class="period">({$tariff["period"]|days})</div>
+                    <div class="note">Billed in one payment of ${$tariff["price"]|money}</div>
+
+                    <div class="signup">Sign up!</div>
+                </div>
+            </div>
+        </div>
+
+      </div>
+
+      <div class="row"> 
+        <div class="packages-footer-wrapper">
+          <div class="col-md-12">
+            <div class="packages-footer">
+            {include '../common/footer.latte'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

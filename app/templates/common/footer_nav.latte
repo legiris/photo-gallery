@@ -1,0 +1,24 @@
+<div class="row footer-nav visible-lg visible-md hidden-sm hidden-xs">
+  <div class="col-md-12">
+    <a n:href="Homepage:">Home</a> -
+    {if $user_is_loggin && $user_allowed_video}<a n:href="Content:">Recently Featured</a> - {/if}
+    {if !$user_is_loggin}<a n:href="Sign:in">Member Login</a> - {/if}
+    <a n:href="Homepage:contact">Contact / Support</a> -
+    <a n:href="Homepage:terms">Terms and Conditions</a>{if !$user_is_loggin} -
+    <a n:href="Sign:up" class="join">Join Now</a>{else}{if !$user_allowed_video} -
+    <a n:href="Order:" class="join">Prolong Membership</a>
+    {/if}{/if}
+  </div>
+</div>
+<div class="row footer-nav block-content visible-sm visible-xs hidden-lg hidden-md">
+  <div class="col-sm-12">
+    <p><a n:href="Homepage:">Home</a></p>
+    {if $user_is_loggin && $user_allowed_video}<p><a n:href="Content:">Recently Featured</a></p>{/if}
+    {if !$user_is_loggin}<p><a n:href="Sign:in">Member Login</a></p>{/if}
+    <p><a n:href="Homepage:contact">Contact / Support</a></p>
+    <p><a n:href="Homepage:terms">Terms and Conditions</a></p>{if !$user_is_loggin}
+    <p><a n:href="Sign:up" class="join">Join Now</a></p>{else}{if !$user_allowed_video}
+    <p><a n:href="Order:" class="join">Prolong Membership</a></p>
+    {/if}{/if}
+  </div>
+</div>

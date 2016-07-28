@@ -1,0 +1,162 @@
+{block content}
+
+<div class="homepage">
+  <div class="video">
+    <div class="container">
+      <div class="row visible-lg visible-md">
+        <div class="col-xs-10 col-xs-offset-1 description">
+          {$text_content2|noescape}
+        </div>
+      </div>
+      
+      <div class="row homepage_video">
+        <div class="col-md-10 col-md-offset-1" style="margin-bottom: .5%">
+          <div class="video_container">
+            <div id="mycarousel"  class="carousel slide " data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="item active">
+                  <div align="center" class="embed-responsive embed-responsive-16by9">
+                    {include "../common/video.latte", video=>$video_trailer}
+                  </div>
+                    <div class="carousel-caption transparent-nav description">
+                      <div class="title">{$video_trailer["name"]}</div>
+                      <div class="info">
+                        <span class="quality">Ultra-HD</span>
+                        <span class="duration">{$video_trailer["video_full_duration"]|time_duration}</span>
+                      </div>
+                    </div>
+                </div>
+              </div>
+            </div>        
+          </div>
+        </div>
+      </div>
+                
+    </div>
+  </div>
+                    
+  <div class="page-bg">
+    {snippet homepage}
+      
+    {if $user_is_loggin}  
+    <div class="container"> 
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div class="media_block homepage">
+              <div class="row nav">
+                <div class="col-md-2 item item-show">
+                  Show
+                </div>
+                <a n:href="Homepage:default all" class="ajax">
+                  <div class="col-md-2 {$param == 'all' ? 'item-active' : 'item'} item-all">All Content</div>
+                </a>
+                <a n:href="Homepage:default videos" class="ajax">
+                  <div class="col-md-2 {$param == 'videos' ? 'item-active' : 'item'} item-camera">Only Videos</div>
+                </a>
+                <a n:href="Homepage:default photosgallery" class="ajax">
+                  <div class="col-md-2 {$param == 'photosgallery' ? 'item-active' : 'item'} item-photo">Only Photos</div>
+                </a>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+    {else}  
+    <div class="container reset">
+      <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12">
+            
+            <div class="buttons">
+              <a n:href="Homepage:default videos" class="videos ajax">
+                <img src="{$basePath}/images/icon-video.png" />
+                RECENT&nbsp;VIDEOS
+              </a>
+              <a n:href="Sign:in" class="photos">
+                <img src="{$basePath}/images/icon-photo.png" />
+                RECENT&nbsp;PHOTOS
+              </a>
+            </div>
+        </div>
+      </div>
+    </div>
+    {/if}      
+                
+            
+    <div class="container reset">
+        <div class="row homepage-recent">
+          {var $count = 0}
+          {foreach $data as $item}
+            {if $count == 0} <div class="col-md-5 col-md-offset-1"> {else} <div class="col-md-5"> {/if}
+            <div id="mycarousel"  {if $item->type == 'photogallery'} class="carousel slide img-thumb shadow" {else} class="carousel slide img-thumb" {/if} data-ride="carousel">
+              <div class="carousel-inner">
+                <div class="item active">
+                  {if $param == 'all'}
+                    {if $item->type == 'video'}
+                      <a n:href="Content:$item->type $item[id]">
+                        <img src="{$basePath}{$item->url}" alt="" class="img-responsive" />
+                      </a>
+                    {else}
+                      <a n:href="Content:$item->type $item[id]">
+                        {if $item->url_top}
+                          <img src="{$basePath}{$item->url_top}" alt="" class="img-responsive" />
+                        {else}
+                          <img src="{$basePath}{$item->url}" alt="" class="img-responsive" />
+                        {/if}
+                      </a>
+                    {/if}
+                  {/if}
+
+                  {if $param == 'videos'}
+                    <a n:href="Content:video $item[id]"><img src="{$basePath}{$item->url}" alt="" class="img-responsive" /></a>
+                  {/if}
+
+                  {if $param == 'photosgallery'}
+                    {if $item->url_top}
+                      <a n:href="Content:$item->type $item[id]"><img src="{$basePath}{$item->url_top}" alt="" class="img-responsive" /></a>
+                      {else}
+                      <a n:href="Content:$item->type $item[id]"><img src="{$basePath}{$item->url}" alt="" class="img-responsive" /></a>
+                    {/if}
+                  {/if}
+
+                  <a n:href="Content:$item->type $item[id]">
+                    <div class="carousel-caption transparent-nav">
+                      <div class="title">{$item[name]}</div>
+                      <div class="info">
+                        {if $item->type == 'video'}
+                          <strong>HD</strong> {$item->seconds_count|time_duration}
+                        {else}
+                          {$item->seconds_count}&nbsp;photos
+                        {/if}
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>      
+            </div>
+              {if $count == 1}
+                <div class="clearfix visible-md visible-lg"></div>
+                {var $count = 0}
+              {else}
+                {var $count += 1}
+              {/if}
+            {/foreach}
+          </div>
+        </div>
+    </div>
+    {/snippet}
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 full-access">
+          {if $user_is_loggin}
+          <a n:href="Content:default" class="access_button center-block">Project</a>
+          {else}
+          <a n:href="Sign:in" class="access_button center-block">Get Full Access</a>
+          {/if}
+        </div>
+      </div>
+    </div>
+    {include '../common/footer.latte'}
+  
+</div>

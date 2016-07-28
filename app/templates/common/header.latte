@@ -1,0 +1,54 @@
+{if $header_logo_only}
+  <header>
+    <div class="row big">
+      <div class="col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4">
+        <a href="{$basePath}/">
+          <img src="{$basePath}/images/logo-light.png" alt="logo" class="img-responsive center-block" />
+        </a>
+      </div>
+    </div>
+  </header>
+{else}
+  <!-- Navigation -->
+  <nav class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" id="changeToggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <div id="hamburger-icon" style="display: block;">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </div>
+          <div id="close-icon" style="display: none;">
+            <span>X</span>
+          </div>  
+        </button>
+        <a class="navbar-brand" href="{$basePath}/">
+          <img src="{$basePath}/images/main-main-logo.png" alt="logo" />
+        </a>
+      </div>
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right list">
+            {if $user_is_loggin}
+              {if $user_allowed_video}
+                <li><a n:href="Content:">Recently featured</a></li>
+              {/if}
+              {if !$user_allowed_video}<li><a n:href="Order:" class="join">Prolong Membership</a></li>{/if}
+              <li><a n:href="Homepage:contact">Contact / Support</a></li>
+              <li><a n:href="Profile:default">{$user_login}</a></li>
+              <li><a n:href="Sign:out" class="logout opt2">Logout</a></li>
+            {else}
+              <li><a n:href="Sign:in">Member Login</a></li>
+              <li><a n:href="Homepage:contact">Contact / Support</a></li>
+              <li><a n:href="Sign:up" class="join">Join Now!</a></li>
+            {/if}
+          </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+  </nav>
+{/if}

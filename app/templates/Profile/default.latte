@@ -1,0 +1,93 @@
+{* Latte template *}
+
+{block content}
+
+<div class="account">
+  <div class="container">
+    <div class="row visible-lg visible-md">
+      <div class="col-xs-10 col-xs-offset-1 quote">
+        {$homepage_title|noescape}
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="heading">My account</div>
+      </div>
+    </div>
+    
+    <div class="row block">
+      <div class="col-md-12">
+
+        <div class="col-md-5 col-md-offset-1 block_profile_form">
+          <form n:name="userProfileForm">
+            <input n:name="change_password" id="profile_change_password">
+            <input n:name="change_email" id="profile_change_email">
+
+            <label>Username</label>
+            <input class="value" disabled type="text" value="{$user_username}">
+
+            <a href="#" class="toggler" data-hidden="profile_change_password" data-block="profile_change_password_block">Change password</a>
+            <br />
+
+            <div id="profile_change_password_block">
+                <label>Current password</label>
+                <input n:name="password" class="value">
+
+                <label>New password</label>
+                <input n:name="password_new" class="value">
+
+                <label>Repeat password</label>
+                <input n:name="password_new2" class="value">
+            </div>
+
+            <label>Current contact e-mail</label>
+            <input class="value" disabled type="text" value="{$user_email}">
+
+            <a href="#" class="toggler" data-hidden="profile_change_email" data-block="profile_change_email_block">Change e-mail</a>
+            <br />
+
+            <div id="profile_change_email_block">
+                <label>New contact e-mail</label>
+                <input n:name="email" class="value">
+            </div>
+
+            <input n:name="send" value="Save changes" class="value">
+
+            <br />
+          </form>
+        </div>
+        
+        <div class="col-md-5 block_profile_membership">
+          <div class="title">Current membership</div>    
+
+          <span class="tariff">{$user_tariff["name"]}</span>
+          <span class="cost">{if $user_tariff["date_payment"]}
+                  {*<b>${$user_tariff["price"]/(max(1,$user_tariff["period"]))|money}</b> / 1 month*}
+                  <b>${$user_tariff["price"]|money}</b> / {$user_tariff["period"]|days}
+                  {/if}
+          </span>
+          <br />
+
+          <hr>
+          <span class="text_left">{$user_tariff["date_payment"]|date:"d.m.Y"}</span>
+          <span class="text_right">{if $user_tariff["date_payment"]}payed in one payment of ${$user_tariff["price"]|money}{/if}</span>
+          <br />
+
+          <span class="expire_count">{$user_expire_days}</span>
+          <span class="expire_days">days left
+              {if !$user_expire_days}<br><br><a n:href="Order:">Prolong membership</a>{/if}
+          </span>
+
+          <hr>
+          <span class="text_left">Expiration date</span>
+          <span class="text_right"><b>{$user_date_expire|date:"d.m.Y"}</b></span>
+          <br />
+        </div>
+        
+      </div>
+    </div>
+        
+  </div>
+  {include '../common/footer.latte'}
+</div>

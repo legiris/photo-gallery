@@ -1,0 +1,144 @@
+{* Latte template *}
+
+{block content}
+
+<div class="video_detail">
+  <div class="video">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 center">
+          <div align="center" class="embed-responsive embed-responsive-16by9">
+          {if $user_allowed_video}
+            {include "../common/video.latte", video=>$video}
+          {else}
+            {include "../common/video.latte", video=>$video, trailer=>true}
+          {/if}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="page-bg">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          
+          <div class="row video-nav">
+            <div class="col-md-8">
+                <h2 class="title"><a n:href="Homepage:" >
+                    <img src="{$basePath}/images/icon-back.png" alt="back" width="34" height="26" onclick="history.go(-1); return false;" /></a>&nbsp;&nbsp;{$video['name']} <span class="type ">(video)</span>
+                </h2>
+            </div>
+            <div class="col-md-4 hidden-xs hidden-sm">
+                <div class="video-length">Full length {$video["video_full_duration"]|time_duration}</div>
+            </div>
+          </div>
+            
+          {snippet videodetail}
+          <div class="media_block video-detail">
+            <div class="row nav">
+              <a n:href="Content:video $video['id'],'video'" class="ajax">
+                <div class="col-md-2 {$tab == 'video' ? 'item-active first' : 'item'} item-video">Video thumbnails</div>
+              </a>
+              {if $photos}
+              <a n:href="Content:video $video['id'],photogallery" class="ajax">
+                <div class="col-md-2 {$tab == 'photogallery' ? 'item-active' : 'item'} item-photo">Photogallery</div>
+              </a>
+              {/if}
+              <a n:href="Content:video $video['id'],description" class="ajax">
+                <div class="col-md-2 {$tab == 'description' ? 'item-active' : 'item'} item-desc">Video description</div>
+              </a>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-12">
+                <div class="block video_description">
+                {if $tab == 'video'}
+                  <div class="images">
+                    <div class="previews{if !$user_allowed_video} disabled{/if}">
+                      {for $i=1; $i<=6; $i+=1}
+                      {if !$user_allowed_video}
+                          <a n:href="messageBeMember!" class="ajax vimage">
+                      {else}<a class="vimage">{/if}
+                          <img src="{$basePath}/videos/video{$video["id"]}/preview{$i}.jpg" width="160">
+                          <span class="time">{$video["video_full_duration"]*$i/7|time_duration}</span>
+                      </a>
+                      {/for}            
+                    </div>
+                  </div>
+                {/if}
+                {if $tab == 'photogallery'}
+                  {if $user_allowed_video}<script>$('#lightgallery').lightGallery();</script>{/if}
+                  <div class="row images">
+                    <div class="previews{if !$user_allowed_video} disabled{/if}">
+                      <div id="lightgallery" class="gallery">
+                      {var $count = 1}
+                      {foreach $photos as $photo}
+                        {breakIf count($photos) == $count} 
+                        {if $user_allowed_video}
+                          <a href="{$basePath}{$photo['full_filepath']}" class="col-md-4 col-sm-12 col-xs-12 thumb">
+                        {else}
+                          <a n:href="messageBeMemberPhoto!" class="ajax col-md-4 col-sm-12 col-xs-12 thumb">
+                        {/if}
+                            <img src="{$basePath}{$photo['preview_filepath']}" height="" alt="" class="img-responsive" />
+                          </a>
+                        {var $count += 1}
+                      {/foreach}
+                      </div>
+                      
+                      {var $lastPhoto = count($photos) - 1}
+                      <div id="mycarousel" class="carousel slide last-photo" data-ride="carousel">
+                        <div class="carousel-inner">
+                          <div class="item active">
+                            {if $user_allowed_video}
+                              <a n:href="Content:photogallery $photos[$lastPhoto]['photogallery_id']" class="col-md-12 col-sm-12 col-xs-12 thumb">
+                            {else}
+                              <a n:href="messageBeMemberPhoto!" class="ajax col-md-12 col-sm-12 col-xs-12 thumb">
+                            {/if}
+                              <img src="{$basePath}{$photos[$lastPhoto]['preview_filepath']}" alt="" class="img-responsive" />
+                                <div class="carousel-caption">
+                                  <strong>SHOW ALL</strong> <span class="count-photos">({$photos[$lastPhoto][count]} photos)</span>
+                                </div>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                {/if}
+                {if $tab == 'description'}
+                  <p>{$video["description"]|noescape}</p>
+                {/if}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/snippet}
+
+        </div>
+      </div>
+          
+      {if !$user_is_loggin}
+        <div class="row">
+          <div class="col-md-8 col-md-offset-2 full-access">
+            <a n:href="Sign:in" class="access_button center-block">Get full access to all ultra HD videos and photos</a>
+          </div>
+        </div>
+      {else}
+        {if $user_allowed_video}
+          <div class="row">
+            <div class="col-md-12">
+              <div class="button-download">
+                <p><a class="join_button" n:href="Stream:video $video[id],'4k',true">Download 4K Video</a></p>
+              </div>
+            </div>
+          </div>
+        {/if}
+      {/if}          
+          
+          
+    </div>
+    {include '../common/footer.latte'}
+  </div>
+</div>

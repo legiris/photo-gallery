@@ -1,0 +1,123 @@
+{* Latte template *}
+
+{block content}
+
+<div class="recently_featured">
+  <div class="container wrapper">
+    <div class="row">
+      {*<div class="col-xs-12 col-md-10 col-lg-12">*}
+      <div class="col-md-12">
+        <h2>Recently featured</h2>
+      </div>
+    </div>        
+
+    {snippet featured}
+    <div class="media_block featured">
+      <div class="row nav">
+        <div class="col-md-2 item item-show">
+          Show
+        </div>
+        <a n:href="Content:default all" class="ajax">
+          <div class="col-md-2 {$param == 'all' ? 'item-active' : 'item'} item-all">All Content</div>
+        </a>
+        <a n:href="Content:default videos" class="ajax">
+          <div class="col-md-2 {$param == 'videos' ? 'item-active' : 'item'} item-camera">Only Videos</div>
+        </a>
+        <a n:href="Content:default photosgallery" class="ajax">
+          <div class="col-md-2 {$param == 'photosgallery' ? 'item-active' : 'item'} item-photo">Only Photos</div>
+        </a>
+      </div>
+    </div>
+
+     <div class="row">
+      {var $count = 0}
+      {foreach $data as $item}
+        
+        <div class="col-md-4">
+        
+          <div id="mycarousel"  {if $item->type == 'photogallery'} class="carousel slide img-thumb shadow" {else} class="carousel slide img-thumb" {/if} data-ride="carousel">
+            <div class="carousel-inner">
+              <div class="item active">
+                {if $param == 'all'}
+                  {if $item->type == 'video'}
+                    <a n:href="Content:$item->type $item[id]">
+                      <img src="{$basePath}{$item->url}" alt="" class="img-responsive" />
+                    </a>
+                  {else}
+                    <a n:href="Content:$item->type $item[id]">
+                      {if $item->url_top}
+                        <img src="{$basePath}{$item->url_top}" alt="" class="img-responsive" />
+                      {else}
+                        <img src="{$basePath}{$item->url}" alt="" class="img-responsive" />
+                      {/if}
+                    </a>
+                  {/if}
+                {/if}
+
+                {if $param == 'videos'}
+                  <a n:href="Content:video $item[id]"><img src="{$basePath}{$item->url}" alt="" class="img-responsive" /></a>
+                {/if}
+
+                {if $param == 'photosgallery'}
+                  {if $item->url_top}
+                    <a n:href="Content:$item->type $item[id]"><img src="{$basePath}{$item->url_top}" alt="" class="img-responsive" /></a>
+                  {else}
+                    <a n:href="Content:$item->type $item[id]"><img src="{$basePath}{$item->url}" alt="" class="img-responsive" /></a>
+                  {/if}
+                {/if}
+                
+                <a n:href="Content:$item->type $item[id]">
+                  <div class="carousel-caption transparent-nav">
+                    <div class="title">{$item[name]}</div>
+                    <div class="info">
+                      {if $item->type == 'video'}
+                        <strong>HD</strong> {$item->seconds_count|time_duration}
+                      {else}
+                        {$item->seconds_count}&nbsp;photos
+                      {/if}
+                    </div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+        
+        </div>
+        {if $count == 2}
+          <div class="clearfix visible-md visible-lg"></div>
+          {var $count = 0}
+        {else}
+          {var $count += 1}
+        {/if}
+        
+        
+                {*
+        <div class="col-md-4 thumb">
+          {if $param == 'all'}
+            {if $item->type == 'video'}
+              <a n:href="Content:video $item[id]"><img src="{$basePath}{$item->url}" alt="" class="img-responsive" /></a>
+            {else}
+              <a n:href="Content:photogallery $item[id]">
+                <img src="{$basePath}{$item->url}" alt="" class="img-responsive shadow" />
+              </a>
+            {/if}
+          {/if}
+
+          {if $param == 'videos'}
+            <a n:href="Content:video $item[id]"><img src="{$basePath}{$item->url}" alt="" class="img-responsive" /></a>
+          {/if}
+
+          {if $param == 'photosgallery'}
+            <a n:href="Content:photogallery $item[id]"><img src="{$basePath}{$item->url}" alt="" class="img-responsive shadow" /></a>
+          {/if}
+        </div>
+        *}
+        
+      {/foreach} 
+    </div> 
+    {include '../common/pagination.latte'}
+    {/snippet}
+    
+  </div>
+    {include '../common/footer.latte'}
+</div>

@@ -1,0 +1,29 @@
+{if $header_logo_only}
+  <div class="header bigger">
+    <div class="page">
+      <a class="logo_big"></a>
+      <br><br><hr>
+      <div class="quote"><b>Project</b> by project!</div>
+    </div>
+  </div>
+{else}
+  <div class="header">
+    <div class="page">
+      <a n:href="Admin:" class="logo"></a>
+      <div class="nav">
+        <div>
+          <a n:href="Admin:video" class="highlight">+Nové video</a>
+          <a n:href="Admin:videos">Přehled videí</a>
+          <a n:href="Admin:photogallery" class="highlight">+Nová galerie</a>
+          <a n:href="Admin:photosgallery">Přehled galerií</a>
+          <a n:href="Admin:logout" class="logout">Odhlásit</a>
+        </div>
+        <div>
+          <a n:href="Admin:texts">Texty / SEO</a>
+          <a n:href="Admin:tariffs">Tarify</a>
+          <a n:href="Admin:email">Nastavení e-mailu</a>
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
